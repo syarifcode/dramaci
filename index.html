@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dramaci - Stream Drama All-in-One</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="sidebar-overlay" onclick="toggleMenu()"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Info Dramaci</h3>
+            <button onclick="toggleMenu()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="sidebar-content">
+            <div class="profile-card">
+                <div class="dev-badge">Developer</div>
+                <h2>SyarifCode</h2>
+                <p>Platform streaming drama modern. Gabungan Dramabox & Netshort.</p>
+            </div>
+            
+            <div class="contact-links">
+                <a href="https://instagram.com/dyat_xd" target="_blank" class="social-btn ig">
+                    <i class="fab fa-instagram"></i> Follow @dyat_xd
+                </a>
+                <a href="https://wa.me/6289636065083" target="_blank" class="social-btn wa">
+                    <i class="fab fa-whatsapp"></i> Chat WhatsApp
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <p>&copy; 2025 Dramaci. v8.1 Auto Next</p>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="header-container">
+            <div class="logo-area" onclick="switchTab('home')">
+                <i class="fas fa-play-circle logo-icon"></i>
+                <span class="logo-text">Dramaci</span>
+            </div>
+            <div class="search-area">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Cari judul atau genre..." onclick="Core.openSearchPage()" readonly>
+                </div>
+            </div>
+            <div class="menu-area">
+                <button class="menu-btn" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-wrapper">
+        
+        <main id="homePage">
+            <div class="hero-banner">
+                <div class="hero-content">
+                    <h1>Dunia Drama<br>Dalam Genggaman.</h1>
+                    <p>Ribuan judul dari berbagai sumber terbaik.</p>
+                </div>
+            </div>
+            <section class="content-section" id="homeDramaboxSection">
+                <div class="section-header">
+                    <h2>🔥 Sedang Tren (DB)</h2>
+                    <span class="pulse-dot"></span>
+                </div>
+                <div class="grid-container" id="homeGridDB">
+                    <div class="loading-spinner"></div>
+                </div>
+                <button class="glow-btn full-width" onclick="Core.loadMoreHomeDB()">Muat Lebih Banyak</button>
+            </section>
+
+            <section class="content-section" id="homeNetshortSection">
+                <div class="section-header">
+                    <h2>⚡ Viral Netshort</h2>
+                </div>
+                <div class="scrolling-wrapper" id="homeListNS">
+                    <div class="loading-spinner"></div>
+                </div>
+            </section>
+        </main>
+
+        <main id="explorePage" style="display: none;">
+            <div class="page-header">
+                <h2>🧭 Jelajahi</h2>
+                <p style="color:#888; font-size:0.8rem;">Temukan tontonan baru tanpa batas.</p>
+            </div>
+            <div class="grid-container" id="exploreGrid">
+                <div class="loading-spinner"></div>
+            </div>
+        </main>
+
+        <main id="dubbedPage" style="display: none;">
+            <div class="page-header">
+                <h2>🎤 Sulih Suara Indonesia</h2>
+                <p style="color:#888; font-size:0.8rem;">Koleksi dubbing dari semua sumber.</p>
+            </div>
+            <div class="grid-container" id="dubbedGrid">
+                <div class="loading-spinner"></div>
+            </div>
+            <button class="glow-btn full-width" onclick="Core.loadMoreDubbed()">Muat Lebih Banyak</button>
+        </main>
+
+        <main id="vipPage" style="display: none;">
+             <div class="page-header">
+                <h2>👑 Koleksi VIP</h2>
+                <p style="color:#888; font-size:0.8rem;">Nikmati drama eksklusif pilihan.</p>
+            </div>
+            <div class="grid-container" id="vipGrid">
+                <div class="loading-spinner"></div>
+            </div>
+        </main>
+
+        <main id="historyPage" style="display: none;">
+            <div class="page-header" style="display:flex; justify-content:space-between; align-items:center;">
+                <h2>🕒 Riwayat Tontonan</h2>
+                <button onclick="Core.clearHistory()" style="background:#333; border:none; color:#ff2965; padding:5px 10px; border-radius:5px; font-size:0.8rem;">Hapus Semua</button>
+            </div>
+            <div class="grid-container" id="historyGrid">
+                <p style="color:#777; width:100%; text-align:center; padding:20px;">Belum ada riwayat tontonan.</p>
+            </div>
+        </main>
+
+        <main id="searchPage" style="display: none;">
+            <div class="page-header">
+                <h2>Hasil: <span id="searchKeyword" class="highlight-text"></span></h2>
+                <button class="back-link" onclick="switchTab('home')">Tutup</button>
+            </div>
+            
+            <div id="searchCategories" style="margin-bottom:20px; display:none;">
+                <h3>Jelajahi Genre</h3>
+                <div class="tags-cloud" id="genreList"></div>
+            </div>
+
+            <div class="grid-container" id="searchGrid"></div>
+        </main>
+
+        <main id="playerPage" style="display: none;">
+            <button class="back-nav" onclick="Core.goBack()"><i class="fas fa-chevron-left"></i> Kembali</button>
+            
+            <div class="video-wrapper-glass">
+                <video id="mainVideo" controls playsinline controlsList="nodownload" poster="">
+                    Browser Anda tidak mendukung tag video.
+                </video>
+
+                <div id="autoNextOverlay" class="auto-next-overlay" style="display: none;">
+                    <p>Lanjut ke episode berikutnya?</p>
+                    <div class="countdown-circle" id="countdownTimer">5</div>
+                    <div class="overlay-btns">
+                        <button onclick="Core.cancelAutoNext()" class="btn-cancel">Batal</button>
+                        <button onclick="Core.playNextEpisode()" class="btn-now">Gas Sekarang</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="drama-info-glass">
+                <h1 id="detailTitle">Memuat Judul...</h1>
+                <div class="drama-stats">
+                    <span id="detailSource" class="source-badge">SUMBER</span>
+                    <span id="detailEps"><i class="fas fa-layer-group"></i> - Eps</span>
+                </div>
+                
+                <div class="drama-actions">
+                    <button class="glow-btn-small" onclick="Core.scrollToEpisodes()">
+                        <i class="fas fa-list-ul"></i> Daftar Eps
+                    </button>
+                    <button id="btnNextEp" class="glow-btn-small next-btn" onclick="Core.playNextEpisode()">
+                        Episode Selanjutnya <i class="fas fa-forward"></i>
+                    </button>
+                </div>
+
+                <p id="detailDesc">...</p>
+            </div>
+
+            <div class="episode-container" id="episodeSection">
+                <h3><i class="fas fa-list"></i> Pilih Episode</h3>
+                <div class="episode-grid" id="episodeGrid"></div>
+            </div>
+        </main>
+
+    </div>
+
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="switchTab('home')" id="nav-home">
+            <i class="fas fa-home"></i>
+            <span>Beranda</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('explore')" id="nav-explore">
+            <i class="fas fa-compass"></i>
+            <span>Explore</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('dubbed')" id="nav-dubbed">
+            <i class="fas fa-microphone-alt"></i>
+            <span>Indo</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('vip')" id="nav-vip">
+            <i class="fas fa-crown"></i>
+            <span>VIP</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('history')" id="nav-history">
+            <i class="fas fa-history"></i>
+            <span>Riwayat</span>
+        </button>
+    </nav>
+
+    <script src="provider-dramabox.js"></script>
+    <script src="provider-netshort.js"></script>
+    <script src="core.js"></script>
+</body>
+</html>
