@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dramaci V11 - Quadruple Engine</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#E91E63">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        .hero-slider-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; height: 220px; margin-bottom: 20px; }
+        .hero-slider-container::-webkit-scrollbar { display: none; }
+        .hero-slide { flex: 0 0 100%; position: relative; scroll-snap-align: center; border-radius: 0 0 15px 15px; overflow: hidden; }
+        .hero-slide img { width: 100%; height: 100%; object-fit: cover; }
+        .hero-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 20px; }
+        .hero-info h1 { margin: 5px 0; font-size: 1.2rem; text-shadow: 1px 1px 3px black; }
+        .hero-info p { font-size: 0.8rem; color: #ccc; margin-bottom: 10px; }
+        .hero-info button { background: #E91E63; border: none; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; }
+        .hero-badge { background: #00BCD4; color: black; padding: 2px 8px; border-radius: 5px; font-size: 0.6rem; font-weight: bold; }
+        
+        /* Tombol Lihat Semua */
+        .view-all-btn { float: right; font-size: 0.8rem; color: #E91E63; text-decoration: none; margin-top: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar-overlay" onclick="toggleMenu()"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Info Dramaci</h3>
+            <button onclick="toggleMenu()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="sidebar-content">
+            <div class="profile-card">
+                <div class="dev-badge">Developer</div>
+                <h2>SyarifCode</h2>
+                <p>V11 Quadruple Engine. Flickreels + Melolo + Dramabox + Netshort.</p>
+            </div>
+            
+            <div id="installContainer" style="display: none;">
+                <button id="btnInstallApp" class="install-btn">
+                    <i class="fas fa-download"></i> Install Aplikasi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="header-container">
+            <div class="logo-area" onclick="switchTab('home')">
+                <i class="fas fa-play-circle logo-icon"></i>
+                <span class="logo-text">Dramaci</span>
+            </div>
+            <div class="search-area">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Cari judul..." onclick="Core.openSearchPage()" readonly>
+                </div>
+            </div>
+            <div class="menu-area">
+                <button class="menu-btn" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-wrapper">
+        
+        <main id="homePage">
+            <div class="hero-slider-container" id="heroSlider">
+                <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#666;">Memuat Banner...</div>
+            </div>
+
+            <section class="content-section" id="homeMeloloTrendSection">
+                <div class="section-header">
+                    <h2>🔥 Melolo Trending</h2>
+                    <span class="view-all-btn" onclick="Core.openSectionPage('melolo_trend')">Lihat Semua</span>
+                </div>
+                <div class="scrolling-wrapper" id="homeListMeloloTrend">
+                    <div class="loading-spinner"></div>
+                </div>
+            </section>
+
+            <section class="content-section" id="homeFlickSection">
+                <div class="section-header">
+                    <h2>💎 Flickreels Pilihan</h2>
+                    <span class="view-all-btn" onclick="Core.openSectionPage('flick')">Lihat Semua</span>
+                </div>
+                <div class="scrolling-wrapper" id="homeListFlick">
+                    <div class="loading-spinner"></div>
+                </div>
+            </section>
+
+            <section class="content-section" id="homeDramaboxSection">
+                <div class="section-header">
+                    <h2>🚀 Populer Dramabox</h2>
+                </div>
+                <div class="grid-container" id="homeGridDB">
+                    <div class="loading-spinner"></div>
+                </div>
+                <button class="glow-btn full-width" onclick="Core.loadMoreHomeDB()">Muat Lebih Banyak</button>
+            </section>
+
+            <section class="content-section" id="homeMeloloNewSection">
+                <div class="section-header">
+                    <h2>✨ Melolo Terbaru</h2>
+                    <span class="view-all-btn" onclick="Core.openSectionPage('melolo_new')">Lihat Semua</span>
+                </div>
+                <div class="scrolling-wrapper" id="homeListMeloloNew">
+                    <div class="loading-spinner"></div>
+                </div>
+            </section>
+
+            <section class="content-section" id="homeNetshortSection">
+                <div class="section-header">
+                    <h2>⚡ Viral Netshort</h2>
+                    <span class="view-all-btn" onclick="Core.openSectionPage('ns')">Lihat Semua</span>
+                </div>
+                <div class="scrolling-wrapper" id="homeListNS">
+                    <div class="loading-spinner"></div>
+                </div>
+            </section>
+        </main>
+
+        <main id="sectionPage" style="display: none;">
+            <div class="page-header">
+                <h2 id="sectionTitle">Judul Section</h2>
+                <button class="back-link" onclick="switchTab('home')">Tutup</button>
+            </div>
+            <div class="grid-container" id="sectionGrid"></div>
+        </main>
+
+        <main id="explorePage" style="display: none;">
+            <div class="page-header"><h2>🧭 Jelajahi</h2></div>
+            <div class="grid-container" id="exploreGrid"><div class="loading-spinner"></div></div>
+        </main>
+
+        <main id="dubbedPage" style="display: none;">
+            <div class="page-header"><h2>🎤 Sulih Suara Indonesia</h2></div>
+            <div class="grid-container" id="dubbedGrid"><div class="loading-spinner"></div></div>
+            <button class="glow-btn full-width" onclick="Core.loadMoreDubbed()">Muat Lebih Banyak</button>
+        </main>
+
+        <main id="vipPage" style="display: none;">
+             <div class="page-header"><h2>👑 Koleksi VIP</h2></div>
+            <div class="grid-container" id="vipGrid"><div class="loading-spinner"></div></div>
+        </main>
+
+        <main id="historyPage" style="display: none;">
+            <div class="page-header">
+                <h2>📂 Pustaka Saya</h2>
+                <button onclick="Core.clearHistory()" style="float:right;background:#333;border:none;color:#ff2965;">Hapus</button>
+            </div>
+            <div class="history-tabs">
+                <button class="history-tab active" id="tab-history" onclick="Core.switchHistoryTab('history')">🕒 Terakhir</button>
+                <button class="history-tab" id="tab-saved" onclick="Core.switchHistoryTab('saved')">❤️ Disimpan</button>
+            </div>
+            <div class="grid-container" id="historyGrid"></div>
+        </main>
+
+        <main id="searchPage" style="display: none;">
+            <div class="page-header">
+                <h2>Hasil: <span id="searchKeyword" class="highlight-text"></span></h2>
+                <button class="back-link" onclick="switchTab('home')">Tutup</button>
+            </div>
+            <div id="searchCategories" style="margin-bottom:20px; display:none;">
+                <h3>Jelajahi Genre</h3>
+                <div class="tags-cloud" id="genreList"></div>
+            </div>
+            <div class="grid-container" id="searchGrid"></div>
+        </main>
+
+        <main id="playerPage" style="display: none;">
+            <button class="back-nav" onclick="Core.goBack()"><i class="fas fa-chevron-left"></i> Kembali</button>
+            
+            <div class="video-wrapper-glass">
+                <video id="mainVideo" controls playsinline controlsList="nodownload" poster="">
+                    Browser Anda tidak mendukung tag video.
+                </video>
+                <div id="autoNextOverlay" class="auto-next-overlay" style="display: none;">
+                    <p>Lanjut ke episode berikutnya?</p>
+                    <div class="countdown-circle" id="countdownTimer">5</div>
+                    <div class="overlay-btns">
+                        <button onclick="Core.cancelAutoNext()" class="btn-cancel">Batal</button>
+                        <button onclick="Core.playNextEpisode()" class="btn-now">Gas Sekarang</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="drama-info-glass">
+                <h1 id="detailTitle">Memuat Judul...</h1>
+                <div class="drama-stats">
+                    <span id="detailSource" class="source-badge">SUMBER</span>
+                    <span id="detailEps"><i class="fas fa-layer-group"></i> - Eps</span>
+                </div>
+                
+                <div class="drama-actions">
+                    <button class="glow-btn-small" onclick="Core.scrollToEpisodes()"><i class="fas fa-list-ul"></i> Eps</button>
+                    <button id="btnSaveDrama" class="glow-btn-small btn-save" onclick="Core.toggleSave()"><i class="far fa-heart"></i> Simpan</button>
+                    <button class="glow-btn-small btn-share" onclick="Core.shareDrama()"><i class="fab fa-whatsapp"></i> Share</button>
+                    <button id="btnNextEp" class="glow-btn-small next-btn" onclick="Core.playNextEpisode()">Next <i class="fas fa-forward"></i></button>
+                </div>
+                <p id="detailDesc">...</p>
+            </div>
+
+            <div class="episode-container" id="episodeSection">
+                <h3><i class="fas fa-list"></i> Pilih Episode</h3>
+                <div class="episode-grid" id="episodeGrid"></div>
+            </div>
+
+            <div class="rec-section">
+                <h3><i class="fas fa-heart"></i> Kamu Mungkin Suka</h3>
+                <div class="scrolling-wrapper" id="recList">
+                    <div class="loading-spinner"></div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="switchTab('home')" id="nav-home"><i class="fas fa-home"></i> <span>Beranda</span></button>
+        <button class="nav-item" onclick="switchTab('explore')" id="nav-explore"><i class="fas fa-compass"></i> <span>Explore</span></button>
+        <button class="nav-item" onclick="switchTab('dubbed')" id="nav-dubbed"><i class="fas fa-microphone-alt"></i> <span>Indo</span></button>
+        <button class="nav-item" onclick="switchTab('vip')" id="nav-vip"><i class="fas fa-crown"></i> <span>VIP</span></button>
+        <button class="nav-item" onclick="switchTab('history')" id="nav-history"><i class="fas fa-history"></i> <span>Pustaka</span></button>
+    </nav>
+
+    <script src="provider-dramabox.js"></script>
+    <script src="provider-netshort.js"></script>
+    <script src="provider-melolo.js"></script>
+    <script src="provider-flickreels.js"></script> <script src="core.js"></script>
+</body>
+</html>
